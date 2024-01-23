@@ -6,6 +6,17 @@ function P1ScoreCh (P1Score: any[]) {
 function P2ScoreCh (P2Score: any[]) {
 	
 }
+function KillZombie () {
+    let P1Bullet: Sprite = null
+    // ZType1
+    if (P1Bullet.overlapsWith(null)) {
+    	
+    }
+    // ZType2
+    if (P1Bullet.overlapsWith(null)) {
+    	
+    }
+}
 let mySprite = sprites.create(img`
     . . . . . . . . . b 5 b . . . . 
     . . . . . . . . . b 5 b . . . . 
