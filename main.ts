@@ -36,17 +36,6 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 function P2ScoreCh (P2Score: any[]) {
 	
 }
-function KillZombie () {
-    let P1Bullet: Sprite = null
-    // ZType1
-    if (P1Bullet.overlapsWith(null)) {
-    	
-    }
-    // ZType2
-    if (P1Bullet.overlapsWith(null)) {
-    	
-    }
-}
 let Jump = 0
 let mySprite: Sprite = null
 mySprite = sprites.create(img`
