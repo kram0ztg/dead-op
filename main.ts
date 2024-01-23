@@ -2,11 +2,42 @@
 function P1ScoreCh (P1Score: any[]) {
 	
 }
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (Jump < 2) {
+        Jump += 1
+        mySprite.vy = -150
+        animation.runImageAnimation(
+        mySprite,
+        [img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `],
+        500,
+        false
+        )
+    }
+})
 // Will be called when P2 hits target
 function P2ScoreCh (P2Score: any[]) {
 	
 }
-let mySprite = sprites.create(img`
+let Jump = 0
+let mySprite: Sprite = null
+mySprite = sprites.create(img`
     . . . . . . . . . b 5 b . . . . 
     . . . . . . . . . b 5 b . . . . 
     . . . . . . b b b b b b . . . . 
@@ -50,6 +81,7 @@ let mySprite2 = sprites.create(img`
     ........................
     ........................
     `, SpriteKind.Player)
+mySprite2.setPosition(11, 96)
 controller.moveSprite(mySprite)
 scene.setBackgroundImage(img`
     8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
@@ -173,3 +205,7 @@ scene.setBackgroundImage(img`
     1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
     1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
     `)
+tiles.setCurrentTilemap(tilemap`level1`)
+controller.moveSprite(mySprite, 100, 0)
+Jump = 0
+scene.cameraFollowSprite(mySprite)

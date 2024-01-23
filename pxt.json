@@ -3,13 +3,16 @@
     "description": "",
     "dependencies": {
         "device": "*",
-        "dead ops": "github:kram0ztg/dead-op#e8f70333cb673379ab3047b30ef74f5c159a46ce"
+        "dead ops": "github:kram0ztg/dead-op#e8f70333cb673379ab3047b30ef74f5c159a46ce",
+        "animation": "*"
     },
     "files": [
         "main.blocks",
         "main.ts",
         "README.md",
-        "assets.json"
+        "assets.json",
+        "tilemap.g.jres",
+        "tilemap.g.ts"
     ],
     "testFiles": [
         "test.ts"
