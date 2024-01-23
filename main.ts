@@ -2,6 +2,7 @@
 function P1ScoreCh (P1Score: any[]) {
 	
 }
+// Will be called when P1 hits target
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (Jump < 2) {
         Jump += 1
@@ -34,6 +35,17 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 // Will be called when P2 hits target
 function P2ScoreCh (P2Score: any[]) {
 	
+}
+function KillZombie () {
+    let P1Bullet: Sprite = null
+    // ZType1
+    if (P1Bullet.overlapsWith(null)) {
+    	
+    }
+    // ZType2
+    if (P1Bullet.overlapsWith(null)) {
+    	
+    }
 }
 let Jump = 0
 let mySprite: Sprite = null
