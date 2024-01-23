@@ -1,6 +1,8 @@
+// Will be called when P1 hits target
 function P1ScoreCh (P1Score: any[]) {
 	
 }
+// Will be called when P2 hits target
 function P2ScoreCh (P2Score: any[]) {
 	
 }
