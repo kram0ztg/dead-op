@@ -2,6 +2,14 @@ namespace SpriteKind {
     export const P1Projectile = SpriteKind.create()
     export const P2Projectile = SpriteKind.create()
 }
+scene.onHitWall(SpriteKind.Player, function (sprite, location) {
+    if (!(P1.isHittingTile(CollisionDirection.Top))) {
+        Jump = 0
+    }
+    if (P1.isHittingTile(CollisionDirection.Right) || P1.isHittingTile(CollisionDirection.Left)) {
+        P1.vy = 0
+    }
+})
 function findHighestScore (playerScores: number[]) {
     highestScore = -9999
     for (let index = 0; index <= playerScores.length - 1; index++) {
@@ -9,32 +17,65 @@ function findHighestScore (playerScores: number[]) {
     }
     return highestScore
 }
-// Will be called when P1 hits target
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (Jump < 2) {
         Jump += 1
-        mySprite.vy = -150
+        P1.vy = -150
         animation.runImageAnimation(
-        mySprite,
+        P1,
         [img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . 
+            . f f f . f f f f f . . . . 
+            f f f f f c c c c f f . . . 
+            f f f f b c c c c c c f . . 
+            f f f c 3 c c c c c c f . . 
+            . f 3 3 c c c c c c c c f . 
+            . f f f c c c c c 4 c c f . 
+            . f f f f c c c 4 4 c f f . 
+            . f f 4 4 f b f 4 4 f f f . 
+            . f f 4 d 4 1 f d d c f . . 
+            . . f f f 4 d d d d f . . . 
+            . . 4 d d e 4 4 4 e f . . . 
+            . . e d d e 3 3 3 3 f . . . 
+            . . f e e f 6 6 6 6 f f . . 
+            . . f f f f f f f f f f . . 
+            . . . f f . . . f f f . . . 
+            `,img`
+            . . . . . . . . . . . . . . 
+            . f f f . f f f f f . . . . 
+            f f f f f c c c c f f . . . 
+            f f f f b c c c c c c f . . 
+            f f f c 3 c c c c c c f . . 
+            . f 3 3 c c c c c c c c f . 
+            . f f f c c c c c 4 c c f . 
+            . f f f f c c c 4 4 c f f . 
+            . f f 4 4 f b f 4 4 f f f . 
+            . . f 4 d 4 1 f d d f f . . 
+            . . f f f e e d d d f . . . 
+            . . . f 4 d d e 4 e f . . . 
+            . . . f e d d e 3 3 f . . . 
+            . . f f f e e f 6 6 f f . . 
+            . . f f f f f f f f f f . . 
+            . . . f f . . . f f f . . . 
+            `,img`
+            . f f f . f f f f f . . . . 
+            f f f f f c c c c f f . . . 
+            f f f f b c c c c c c f . . 
+            f f f c 3 c c c c c c f . . 
+            . f 3 3 c c c c c c c c f . 
+            . f f f c c c c c 4 c c f . 
+            . f f f f c c c 4 4 e f f . 
+            . f f 4 4 f b f 4 4 e f f . 
+            . . f 4 d 4 1 f d d f f . . 
+            . . f f f 4 d d d d f . . . 
+            . . . f e e 4 4 4 e f . . . 
+            . . . 4 d d e 3 3 3 f . . . 
+            . . . e d d e 3 3 3 f . . . 
+            . . . f e e f 6 6 6 f . . . 
+            . . . . f f f f f f . . . . 
+            . . . . . f f f . . . . . . 
             `],
-        500,
+        100,
         false
         )
     }
@@ -52,8 +93,8 @@ let highestScore = 0
 let Jump = 0
 let player2Score = 0
 let player1Score = 0
-let mySprite: Sprite = null
-mySprite = sprites.create(img`
+let P1: Sprite = null
+P1 = sprites.create(img`
     . . . . . . . . . b 5 b . . . . 
     . . . . . . . . . b 5 b . . . . 
     . . . . . . b b b b b b . . . . 
@@ -71,7 +112,8 @@ mySprite = sprites.create(img`
     . . c b d d d d d 5 5 5 b b . . 
     . . . c c c c c c c c b b . . . 
     `, SpriteKind.Player)
-let mySprite2 = sprites.create(img`
+P1.ay = 600
+let P2 = sprites.create(img`
     .......ff...............
     ....ffff2ff.............
     ..ffeeeef2ff............
@@ -135,8 +177,7 @@ PlayerProjectile = sprites.create(img`
     `, SpriteKind.P2Projectile)
 player1Score = 0
 player2Score = 0
-mySprite2.setPosition(11, 96)
-controller.moveSprite(mySprite)
+controller.moveSprite(P1, 100, 100)
 scene.setBackgroundImage(img`
     8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
     8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
@@ -260,6 +301,6 @@ scene.setBackgroundImage(img`
     1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
     `)
 tiles.setCurrentTilemap(tilemap`level1`)
-controller.moveSprite(mySprite)
+controller.moveSprite(P1, 100, 0)
 Jump = 0
-scene.cameraFollowSprite(mySprite)
+scene.cameraFollowSprite(P1)

@@ -4,7 +4,8 @@
     "dependencies": {
         "device": "*",
         "dead ops": "github:kram0ztg/dead-op#e8f70333cb673379ab3047b30ef74f5c159a46ce",
-        "animation": "*"
+        "animation": "*",
+        "multiplayer": "*"
     },
     "files": [
         "main.blocks",
