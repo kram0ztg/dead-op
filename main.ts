@@ -1,6 +1,13 @@
-// Will be called when P1 hits target
-function P1ScoreCh (P1Score: any[]) {
-	
+namespace SpriteKind {
+    export const P1Projectile = SpriteKind.create()
+    export const P2Projectile = SpriteKind.create()
+}
+function findHighestScore (playerScores: number[]) {
+    highestScore = -9999
+    for (let index = 0; index <= playerScores.length - 1; index++) {
+        currentPlayerScores = playerScores[index]
+    }
+    return highestScore
 }
 // Will be called when P1 hits target
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -32,11 +39,19 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         )
     }
 })
-// Will be called when P2 hits target
-function P2ScoreCh (P2Score: any[]) {
-	
-}
+sprites.onOverlap(SpriteKind.P2Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
+    info.player2.changeScoreBy(1)
+    player2Score = info.player2.score()
+})
+sprites.onOverlap(SpriteKind.P1Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
+    info.player1.changeScoreBy(1)
+    player1Score = info.player1.score()
+})
+let currentPlayerScores = 0
+let highestScore = 0
 let Jump = 0
+let player2Score = 0
+let player1Score = 0
 let mySprite: Sprite = null
 mySprite = sprites.create(img`
     . . . . . . . . . b 5 b . . . . 
@@ -82,6 +97,44 @@ let mySprite2 = sprites.create(img`
     ........................
     ........................
     `, SpriteKind.Player)
+let PlayerProjectile = sprites.create(img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . 4 4 4 4 4 4 4 4 . . . . 
+    . . . . 4 4 4 4 4 4 4 4 . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `, SpriteKind.P1Projectile)
+PlayerProjectile = sprites.create(img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . 4 4 4 4 4 4 4 4 . . . . 
+    . . . . 4 4 4 4 4 4 4 4 . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `, SpriteKind.P2Projectile)
+player1Score = 0
+player2Score = 0
 mySprite2.setPosition(11, 96)
 controller.moveSprite(mySprite)
 scene.setBackgroundImage(img`
@@ -207,6 +260,6 @@ scene.setBackgroundImage(img`
     1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
     `)
 tiles.setCurrentTilemap(tilemap`level1`)
-controller.moveSprite(mySprite, 100, 0)
+controller.moveSprite(mySprite)
 Jump = 0
 scene.cameraFollowSprite(mySprite)
