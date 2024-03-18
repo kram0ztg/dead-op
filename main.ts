@@ -42,17 +42,14 @@ controller.player2.onButtonEvent(ControllerButton.B, ControllerButtonEvent.Press
     PlayerProjectile.setPosition(P2.x, P2.y)
     PlayerProjectile.setVelocity(50, 0)
     PlayerProjectile.setFlag(SpriteFlag.AutoDestroy, true)
-    if (true) {
-
-    }
 })
 controller.player1.onButtonEvent(ControllerButton.Up, ControllerButtonEvent.Pressed, function () {
     if (Jump < 2) {
         Jump += 1
         P1.vy = -150
         animation.runImageAnimation(
-            P1,
-            [img`
+        P1,
+        [img`
             . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . 
             . . . . 7 7 7 7 7 . . . . . 
@@ -70,12 +67,12 @@ controller.player1.onButtonEvent(ControllerButton.Up, ControllerButtonEvent.Pres
             . . . . . . . . 7 7 7 . . . 
             . . . . . . . . . 7 7 7 . . 
             `],
-            100,
-            false
+        100,
+        false
         )
     }
 })
-function ZombSpawn(ZombInc: number) {
+function ZombSpawn (ZombInc: number) {
     if (sprites.allOfKind(SpriteKind.Enemy).length == 0) {
         for (let index = 0; index < ZombInc; index++) {
             Zombies = sprites.create(ZombList._pickRandom(), SpriteKind.Enemy)
@@ -83,7 +80,7 @@ function ZombSpawn(ZombInc: number) {
             Zombies.follow(Camera2, 40)
         }
     } else {
-
+    	
     }
 }
 controller.player2.onButtonEvent(ControllerButton.Up, ControllerButtonEvent.Pressed, function () {
@@ -91,8 +88,8 @@ controller.player2.onButtonEvent(ControllerButton.Up, ControllerButtonEvent.Pres
         Jump += 1
         P2.vy = -150
         animation.runImageAnimation(
-            P2,
-            [img`
+        P2,
+        [img`
             . . . . . . . . . . . . . . 
             . f f f . f f f f f . . . . 
             f f f f f c c c c f f . . . 
@@ -109,7 +106,7 @@ controller.player2.onButtonEvent(ControllerButton.Up, ControllerButtonEvent.Pres
             . . f e e f 6 6 6 6 f f . . 
             . . f f f f f f f f f f . . 
             . . . f f . . . f f f . . . 
-            `, img`
+            `,img`
             . . . . . . . . . . . . . . 
             . f f f . f f f f f . . . . 
             f f f f f c c c c f f . . . 
@@ -126,7 +123,7 @@ controller.player2.onButtonEvent(ControllerButton.Up, ControllerButtonEvent.Pres
             . . f f f e e f 6 6 f f . . 
             . . f f f f f f f f f f . . 
             . . . f f . . . f f f . . . 
-            `, img`
+            `,img`
             . f f f . f f f f f . . . . 
             f f f f f c c c c f f . . . 
             f f f f b c c c c c c f . . 
@@ -144,8 +141,8 @@ controller.player2.onButtonEvent(ControllerButton.Up, ControllerButtonEvent.Pres
             . . . . f f f f f f . . . . 
             . . . . . f f f . . . . . . 
             `],
-            100,
-            false
+        100,
+        false
         )
     }
 })
@@ -210,7 +207,58 @@ let player1Score = 0
 let statusbar = 0
 player1Score = 0
 player2Score = 0
-ZombList = [assets.image`Zombie2`, assets.image`Zombie1`, assets.image`ZombieO`]
+ZombList = [img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `, img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `, img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `]
 scene.setBackgroundImage(img`
     8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
     8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
