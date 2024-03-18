@@ -4,27 +4,95 @@ namespace SpriteKind {
     export const Camera = SpriteKind.create()
 }
 scene.onHitWall(SpriteKind.Player, function (sprite, location) {
-    if (!(P1.isHittingTile(CollisionDirection.Top))) {
-        Jump = 0
-    }
-    if (P1.isHittingTile(CollisionDirection.Right) || P1.isHittingTile(CollisionDirection.Left)) {
-        P1.vy = 0
+    if (sprite == P1) {
+        if (!(P2.isHittingTile(CollisionDirection.Top))) {
+            Jump = 0
+        }
+        if (P2.isHittingTile(CollisionDirection.Right) || P2.isHittingTile(CollisionDirection.Left)) {
+            P2.vy = 0
+        }
+    } else {
+        if (!(P1.isHittingTile(CollisionDirection.Top))) {
+            Jump = 0
+        }
+        if (P1.isHittingTile(CollisionDirection.Right) || P1.isHittingTile(CollisionDirection.Left)) {
+            P1.vy = 0
+        }
     }
 })
-function findHighestScore (playerScores: number[]) {
-    highestScore = -9999
-    for (let index = 0; index <= playerScores.length - 1; index++) {
-        currentPlayerScores = playerScores[index]
+controller.player2.onButtonEvent(ControllerButton.B, ControllerButtonEvent.Pressed, function () {
+    PlayerProjectile = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . 4 4 4 4 4 4 4 4 . . . . 
+        . . . . 4 4 4 4 4 4 4 4 . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.P2Projectile)
+    PlayerProjectile.setPosition(P2.x, P2.y)
+    PlayerProjectile.setVelocity(50, 0)
+    PlayerProjectile.setFlag(SpriteFlag.AutoDestroy, true)
+    if (true) {
+
     }
-    return highestScore
-}
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+})
+controller.player1.onButtonEvent(ControllerButton.Up, ControllerButtonEvent.Pressed, function () {
     if (Jump < 2) {
         Jump += 1
         P1.vy = -150
         animation.runImageAnimation(
-        P1,
-        [img`
+            P1,
+            [img`
+            . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . 
+            . . . . 7 7 7 7 7 . . . . . 
+            . . . . 7 f d f 7 . . . . . 
+            . . . . 7 d d d 7 . . . . . 
+            . . . . 7 d d d 7 . . . f f 
+            . . . . 7 7 d 7 7 . . . f . 
+            . . . . . 7 7 7 7 . . . f . 
+            . . . . . 7 7 7 7 7 d d d d 
+            . . . . 7 7 7 d d d d . . . 
+            . . . . . 7 7 7 7 . f . . . 
+            . 7 7 7 . 7 7 7 . . f . . . 
+            . . 7 7 7 7 7 7 7 . f f f f 
+            . . . 7 7 7 7 7 7 7 7 . . . 
+            . . . . . . . . 7 7 7 . . . 
+            . . . . . . . . . 7 7 7 . . 
+            `],
+            100,
+            false
+        )
+    }
+})
+function ZombSpawn(ZombInc: number) {
+    if (sprites.allOfKind(SpriteKind.Enemy).length == 0) {
+        for (let index = 0; index < ZombInc; index++) {
+            Zombies = sprites.create(ZombList._pickRandom(), SpriteKind.Enemy)
+            tiles.placeOnRandomTile(Zombies, sprites.castle.tileGrass2)
+            Zombies.follow(Camera2, 40)
+        }
+    } else {
+
+    }
+}
+controller.player2.onButtonEvent(ControllerButton.Up, ControllerButtonEvent.Pressed, function () {
+    if (Jump < 2) {
+        Jump += 1
+        P2.vy = -150
+        animation.runImageAnimation(
+            P2,
+            [img`
             . . . . . . . . . . . . . . 
             . f f f . f f f f f . . . . 
             f f f f f c c c c f f . . . 
@@ -41,7 +109,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
             . . f e e f 6 6 6 6 f f . . 
             . . f f f f f f f f f f . . 
             . . . f f . . . f f f . . . 
-            `,img`
+            `, img`
             . . . . . . . . . . . . . . 
             . f f f . f f f f f . . . . 
             f f f f f c c c c f f . . . 
@@ -58,7 +126,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
             . . f f f e e f 6 6 f f . . 
             . . f f f f f f f f f f . . 
             . . . f f . . . f f f . . . 
-            `,img`
+            `, img`
             . f f f . f f f f f . . . . 
             f f f f f c c c c f f . . . 
             f f f f b c c c c c c f . . 
@@ -76,63 +144,73 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
             . . . . f f f f f f . . . . 
             . . . . . f f f . . . . . . 
             `],
-        100,
-        false
+            100,
+            false
         )
     }
 })
+sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Player, function (sprite, otherSprite) {
+    info.player1.changeScoreBy(-1)
+    player1Score = info.player1.score()
+    info.player2.changeScoreBy(-1)
+    player2Score = info.player2.score()
+    pause(2000)
+})
 sprites.onOverlap(SpriteKind.P2Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
+    sprites.destroy(sprite)
+    sprites.destroy(otherSprite)
+    pause(1000)
     info.player2.changeScoreBy(1)
     player2Score = info.player2.score()
+    ZombsKilled += 1
+    ZombSpawn(ZombsKilled)
 })
 sprites.onOverlap(SpriteKind.P1Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
+    sprites.destroy(sprite)
+    sprites.destroy(otherSprite)
+    pause(1000)
     info.player1.changeScoreBy(1)
     player1Score = info.player1.score()
+    ZombsKilled += 1
+    ZombSpawn(ZombsKilled)
 })
-let currentPlayerScores = 0
-let highestScore = 0
+controller.player1.onButtonEvent(ControllerButton.B, ControllerButtonEvent.Pressed, function () {
+    PlayerProjectile = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . 4 4 4 4 4 4 4 4 . . . . 
+        . . . . 4 4 4 4 4 4 4 4 . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.P1Projectile)
+    PlayerProjectile.setPosition(P1.x, P1.y)
+    PlayerProjectile.setVelocity(90, 0)
+    PlayerProjectile.setFlag(SpriteFlag.AutoDestroy, false)
+})
+let Zombies: Sprite = null
+let PlayerProjectile: Sprite = null
+let ZombsKilled = 0
 let Jump = 0
+let Camera2: Sprite = null
+let P2: Sprite = null
 let P1: Sprite = null
+let ZombList: Image[] = []
 let player2Score = 0
 let player1Score = 0
-let PlayerProjectile = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . 4 4 4 4 4 4 4 4 . . . . 
-    . . . . 4 4 4 4 4 4 4 4 . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    `, SpriteKind.P1Projectile)
-PlayerProjectile = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . 4 4 4 4 4 4 4 4 . . . . 
-    . . . . 4 4 4 4 4 4 4 4 . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    `, SpriteKind.P2Projectile)
+let statusbar = 0
 player1Score = 0
 player2Score = 0
+ZombList = [assets.image`Zombie2`, assets.image`Zombie1`, assets.image`ZombieO`]
 scene.setBackgroundImage(img`
     8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
     8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
@@ -257,27 +335,27 @@ scene.setBackgroundImage(img`
     `)
 tiles.setCurrentTilemap(tilemap`level1`)
 P1 = sprites.create(img`
+    . . . 7 7 7 7 7 7 . . . . . . . 
+    . . . 7 d f d f 7 . . . . . . . 
+    . . . 7 d d d d 7 . . . . . . . 
+    . . . . 7 d d 7 . . . . f f f f 
+    . . . . . 7 7 7 . . . . f . . . 
+    . . . . . 7 d d d d d d f . . . 
+    . . . . . 7 7 7 7 d d d d d d . 
+    . . . . . 7 7 7 7 . . . f . . . 
+    . . . . . 7 7 7 7 . . . f . . . 
+    . . . . 7 7 7 7 7 . . . f f f f 
+    . . . 7 7 7 7 7 7 . . . . . . . 
+    . . . 7 7 . . 7 7 7 . . . . . . 
+    . . . 7 7 . . 7 7 7 . . . . . . 
+    . . . 7 7 . . . 7 7 . . . . . . 
+    . . 7 7 7 . . . 7 7 7 . . . . . 
     . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . b 5 b . . . 
-    . . . . . . . . . b 5 b . . . . 
-    . . . . . . b b b b b b . . . . 
-    . . . . . b b 5 5 5 5 5 b . . . 
-    . b b b b b 5 5 5 5 5 5 5 b . . 
-    . b d 5 b 5 5 5 5 5 5 5 5 b . . 
-    . . b 5 5 b 5 d 1 f 5 d 4 f . . 
-    . . b d 5 5 b 1 f f 5 4 4 c . . 
-    b b d b 5 5 5 d f b 4 4 4 4 4 b 
-    b d d c d 5 5 b 5 4 4 4 4 4 b . 
-    c d d d c c b 5 5 5 5 5 5 5 b . 
-    c b d d d d d 5 5 5 5 5 5 5 b . 
-    . c d d d d d d 5 5 5 5 5 d b . 
-    . . c b d d d d d 5 5 5 b b . . 
-    . . . c c c c c c c c b b . . . 
     `, SpriteKind.Player)
-controller.moveSprite(P1, 100, 100)
+controller.moveSprite(P1, 100, 0)
 tiles.placeOnTile(P1, tiles.getTileLocation(8, 10))
 P1.setStayInScreen(true)
-let P2 = sprites.create(img`
+P2 = sprites.create(img`
     .......ff...............
     ....ffff2ff.............
     ..ffeeeef2ff............
@@ -303,10 +381,10 @@ let P2 = sprites.create(img`
     ........................
     ........................
     `, SpriteKind.Player)
-controller.moveSprite(P2, 100, 100)
+controller.player2.moveSprite(P2, 100, 0)
 tiles.placeOnTile(P2, tiles.getTileLocation(6, 10))
 P2.setStayInScreen(true)
-let Camera = sprites.create(img`
+Camera2 = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
@@ -324,9 +402,14 @@ let Camera = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
     `, SpriteKind.Camera)
-scene.cameraFollowSprite(Camera)
+scene.cameraFollowSprite(Camera2)
 P1.ay = 600
+P2.ay = 600
 Jump = 0
+// Initial set to 1 because if 0, "ZombSpawn" will repeat 0 times.
+ZombsKilled = 1
+ZombSpawn(1)
+console.log(ZombsKilled)
 game.onUpdate(function () {
-    Camera.setPosition((P1.x + P2.x) / 2, (P1.y + P2.y) / 2)
+    Camera2.setPosition((P1.x + P2.x) / 2, (P1.y + P2.y) / 2)
 })
